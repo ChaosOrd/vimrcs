@@ -13,13 +13,14 @@ Plugin 'gmarik/Vundle.vim'
 "---------=== Code/project navigation ===-------------
 Plugin 'scrooloose/nerdtree'            " Project and file navigation
 Plugin 'majutsushi/tagbar'              " Class/module browser
+Bundle 'jistr/vim-nerdtree-tabs'
 
-"------------------=== Other ===----------------------
-Plugin 'bling/vim-airline'             " Lean & mean status/tabline for vim
+    "------------------=== Other ===----------------------
+Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'fisadev/FixedTaskList.vim'     " Pending tasks list
 Plugin 'rosenfeld/conque-term'         " Consoles as buffers
-Plugin 'tpope/vim-surround'            " Parentheses, brackets, quotes, XML tags,
-"and more
+Plugin 'tpope/vim-surround'            " Parentheses, brackets, quotes, XML tags, and more
+Plugin 'jlanzarotta/bufexplorer'       " Buffers (tabs) explorer
 "
 ""--------------=== Snippets support ===---------------
 Plugin 'garbas/vim-snipmate'        " Snippets manager
@@ -28,11 +29,14 @@ Plugin 'tomtom/tlib_vim'        " dependencies #2
 Plugin 'honza/vim-snippets'     " snippets repo
 
 "---------------=== Languages support ===-------------
-"" --- Python ---
+" --- Python ---
 Plugin 'klen/python-mode'           " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
 Plugin 'davidhalter/jedi-vim'       " Jedi-vim autocomplete plugin
-Plugin 'mitsuhiko/vim-jinja'        " Jinja support for vim
+" Plugin 'mitsuhiko/vim-jinja2'        " Jinja support for vim
+Plugin 'lepture/vim-jinja.git' " Another plugin to support jinja
 Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
+" Plugin 'Valloric/YouCompleteMe' " For code autocompletion
+Plugin 'kien/ctrlp.vim' " Find in files
 
 "---------------=== Git support ===------------------
 Plugin 'tpope/vim-fugitive' " Provides git integration
@@ -76,7 +80,7 @@ if has("syntax")
   syntax on
 endif
 
-source ~/vim_scripts/autoclose.vim
+" source ~/vim_scripts/autoclose.vim
 
 
 " General python indentation settings
@@ -114,6 +118,10 @@ set backspace=indent,eol,start
 vnoremap < <gv
 vnoremap > >gv
 
+" Map prev tab and next tab
+nnoremap <F9> :tabn <CR>
+nnoremap <S-F9> :tabp <CR>
+
 aunmenu Help.
 aunmenu Window.
 let no_buffers_menu=1
@@ -124,28 +132,26 @@ let g:pymode_options_max_line_length = 79
 let g:pymode_indent = 1
 let g:pymode_lint_on_fly = 1
 
-autocmd vimenter * TagbarToggle
-autocmd vimenter * NERDTree
-autocmd vimenter * if !argc() | NERDTree | endif
+" autocmd vimenter * TagbarToggle
+" autocmd vimenter * NERDTreeTabsToggle
 
-map <F3> :NERDTreeToggle<CR> " Set NERDTree shortcut
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
+map <F3> :NERDTreeTabsToggle<CR> " Set NERDTree shortcut
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$', '__pycache__']
 
 map <F4> :TagbarToggle<CR> " Set Tagbar shortcut
 let g:tagbar_autofocus = 0 " Autofocus Tagbar when opened
 
 " Airline configuration
-set laststatus=2
-let g:airline_theme='badwolf'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#formatter = 'unique_tail'
+" set laststatus=2
+" let g:airline_theme='badwolf'
+" let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#formatter = 'unique_tail'
 
-if !exists('g:airline_symbols')
-      let g:airline_symbols = {}
-  endif
-let g:airline_symbols.space = "\ua0"
-
+" if !exists('g:airline_symbols')
+"      let g:airline_symbols = {}
+"  endif
+" let g:airline_symbols.space = "\ua0"
 
 "=====================================================
 "" Python-mode settings
@@ -189,24 +195,25 @@ let g:pymode_run = 0
 
 " ====================== JediVim configuration=======
 " Disable choose first function/method at autocomplete
-let g:jedi#popup_select_first = 0
+let g:jedi#popup_select_first = 1
 " ===================================================
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
 set background=dark
+colorscheme molokai
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
-"if has("autocmd")
-"  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-"endif
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
-"if has("autocmd")
-"  filetype plugin indent on
-"endif
+if has("autocmd")
+  filetype plugin indent on
+endif
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
@@ -220,9 +227,63 @@ set hidden		" Hide buffers when they are abandoned
 set mouse=a		" Enable mouse usage (all modes)
 
 " Set run console mode on <F5>>
-nnoremap <F5> :ConqueTermSplit ipython<CR>
+nnoremap <F5> :ConqueTermSplit ipython3<CR>
 " Set debug-mode on <F6>
-nnoremap <F6> :exe "ConqueTermSplit ipython " . expand("%")<CR>
+nnoremap <F6> :exe "ConqueTermSplit ipython3 " . expand("%")<CR>
+" Set open console on <F7>
+nnoremap <F7> :ConqueTermSplit bash <CR>
+nnoremap <F8> :ConqueTermTab bash <CR>
+nnoremap <C-Right> <C-W><Right>
+nnoremap <C-Left> <C-W><Left>
+nnoremap <C-Up> <C-W><Up>
+nnoremap <C-Down> <C-W><Down>
+" Tell ConqueTerm use python3 by default
+let g:ConqueTerm_PyVersion = 3 
+
+
+" Set next buffer on F12
+nnoremap <F12> :bn<CR>
+" Set prev buffer on Shift F12
+nnoremap <S-F12> :bp<CR>
+
+" Synthax highlighting shortcuts
+nnoremap <leader>Th :set ft=htmljinja<CR>
+nnoremap <leader>Tp :set ft=python<CR>
+nnoremap <leader>Tj :set ft=javascript<CR>
+nnoremap <leader>Tc :set ft=css<CR>
+nnoremap <leader>Td :set ft=django<CR>
+
+" --- Python ---
+autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8
+  \ formatoptions+=croq softtabstop=4 smartindent
+  \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+autocmd FileType pyrex setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 
+  \ smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+
+" --- JavaScript ---
+let javascript_enable_domhtmlcss=1
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd BufNewFile,BufRead *.json setlocal ft=javascript
+
+" --- HTML ---
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+
+" --- template language support (SGML / XML too) ---
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako setlocal
+  \ expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd bufnewfile,bufread *.rhtml setlocal ft=eruby
+autocmd BufNewFile,BufRead *.mako setlocal ft=mako
+autocmd BufNewFile,BufRead *.tmpl setlocal ft=htmljinja
+autocmd BufNewFile,BufRead *.py_tmpl setlocal ft=python
+let html_no_rendering=1
+let g:closetag_default_xml=1
+let g:sparkupNextMapping='<c-l>'
+autocmd FileType html,htmldjango,htmljinja,eruby,mako let b:closetag_html_style=1
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako source ~/.vim/scripts/closetag.vim
+
+" --- CSS ---
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 
 " Source a global configuration file if available
 if filereadable("/etc/vim/vimrc.local")
