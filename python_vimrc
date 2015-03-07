@@ -16,7 +16,7 @@ Plugin 'majutsushi/tagbar'              " Class/module browser
 Bundle 'jistr/vim-nerdtree-tabs'
 
     "------------------=== Other ===----------------------
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'bling/vim-airline'
 Plugin 'fisadev/FixedTaskList.vim'     " Pending tasks list
 Plugin 'rosenfeld/conque-term'         " Consoles as buffers
 Plugin 'tpope/vim-surround'            " Parentheses, brackets, quotes, XML tags, and more
@@ -32,11 +32,10 @@ Plugin 'honza/vim-snippets'     " snippets repo
 " --- Python ---
 Plugin 'klen/python-mode'           " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
 Plugin 'davidhalter/jedi-vim'       " Jedi-vim autocomplete plugin
-" Plugin 'mitsuhiko/vim-jinja2'        " Jinja support for vim
-Plugin 'lepture/vim-jinja.git' " Another plugin to support jinja
+Plugin 'mitsuhiko/jinja2'        " Jinja support for vim
 Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
-" Plugin 'Valloric/YouCompleteMe' " For code autocompletion
 Plugin 'kien/ctrlp.vim' " Find in files
+Plugin 'docunext/closetag.vim.git' " Auto tag closing
 
 "---------------=== Git support ===------------------
 Plugin 'tpope/vim-fugitive' " Provides git integration
@@ -122,6 +121,11 @@ vnoremap > >gv
 nnoremap <F9> :tabn <CR>
 nnoremap <S-F9> :tabp <CR>
 
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 aunmenu Help.
 aunmenu Window.
 let no_buffers_menu=1
@@ -142,11 +146,11 @@ map <F4> :TagbarToggle<CR> " Set Tagbar shortcut
 let g:tagbar_autofocus = 0 " Autofocus Tagbar when opened
 
 " Airline configuration
-" set laststatus=2
-" let g:airline_theme='badwolf'
-" let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#formatter = 'unique_tail'
+set laststatus=2
+let g:airline_theme='badwolf'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " if !exists('g:airline_symbols')
 "      let g:airline_symbols = {}
