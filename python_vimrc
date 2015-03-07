@@ -35,7 +35,7 @@ Plugin 'davidhalter/jedi-vim'       " Jedi-vim autocomplete plugin
 Plugin 'mitsuhiko/jinja2'        " Jinja support for vim
 Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 Plugin 'kien/ctrlp.vim' " Find in files
-Plugin 'docunext/closetag.vim.git' " Auto tag closing
+Plugin 'alvan/vim-closetag' " Auto tag closing
 
 "---------------=== Git support ===------------------
 Plugin 'tpope/vim-fugitive' " Provides git integration
@@ -280,10 +280,8 @@ autocmd BufNewFile,BufRead *.mako setlocal ft=mako
 autocmd BufNewFile,BufRead *.tmpl setlocal ft=htmljinja
 autocmd BufNewFile,BufRead *.py_tmpl setlocal ft=python
 let html_no_rendering=1
-let g:closetag_default_xml=1
 let g:sparkupNextMapping='<c-l>'
-autocmd FileType html,htmldjango,htmljinja,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako source ~/.vim/scripts/closetag.vim
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
 
 " --- CSS ---
 autocmd FileType css set omnifunc=csscomplete#CompleteCSS
